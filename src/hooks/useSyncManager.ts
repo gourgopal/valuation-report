@@ -1,6 +1,5 @@
 'use client';
 import { useEffect } from 'react';
-import { db } from '@/lib/db';
 import { createClient } from '@/lib/supabase/client';
 
 export function useSyncManager() {
@@ -16,6 +15,7 @@ export function useSyncManager() {
       isSyncing = true;
       
       try {
+        const { db } = await import('@/lib/db');
         const items = await db.syncQueue.orderBy('createdAt').toArray();
         if (items.length === 0) {
           isSyncing = false;
