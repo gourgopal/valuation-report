@@ -6,9 +6,9 @@ export default function NewJobPage() {
   const router = useRouter();
 
   useEffect(() => {
-    // Generate a random ID and redirect to the job execution page
+    // Generate a random ID and redirect to the static job execution page via query param
     const newId = `VAL-NEW-${Math.floor(Math.random() * 10000)}`;
-    router.replace(`/jobs/${newId}`);
+    router.replace(`/workspace?id=${newId}`);
   }, [router]);
 
   return (

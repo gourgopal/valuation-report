@@ -7,7 +7,7 @@ export default function Dashboard() {
       <div className="max-w-6xl mx-auto space-y-8">
         <header className="flex justify-between items-center">
           <h1 className="text-3xl font-bold tracking-tight text-slate-900">Active Jobs</h1>
-          <Link href="/jobs/new" className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center space-x-2 transition-colors">
+          <Link href="/workspace/new" className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center space-x-2 transition-colors">
             <Plus className="w-4 h-4" />
             <span>New Valuation</span>
           </Link>
@@ -36,7 +36,7 @@ export default function Dashboard() {
                 </td>
                 <td className="p-4 text-slate-500">2 hours ago</td>
                 <td className="p-4">
-                  <Link href="/jobs/demo-id" className="text-blue-600 font-medium hover:text-blue-800 transition-colors">Open Workspace</Link>
+                  <Link href="/workspace?id=VAL-2024-001" className="text-blue-600 font-medium hover:text-blue-800 transition-colors">Open Workspace</Link>
                 </td>
               </tr>
               <tr className="hover:bg-slate-50 transition-colors">
@@ -50,7 +50,7 @@ export default function Dashboard() {
                 </td>
                 <td className="p-4 text-slate-500">Yesterday</td>
                 <td className="p-4">
-                  <Link href="/jobs/demo-id-2" className="text-blue-600 font-medium hover:text-blue-800 transition-colors">View Report</Link>
+                  <Link href="/workspace?id=VAL-2024-002" className="text-blue-600 font-medium hover:text-blue-800 transition-colors">View Report</Link>
                 </td>
               </tr>
             </tbody>
