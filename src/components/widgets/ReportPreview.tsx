@@ -11,10 +11,23 @@ export function ReportPreview({ data, jobId }: { data: any, jobId: string }) {
     setIsExporting(true);
     
     try {
-      // Dynamically import html2pdf to avoid SSR issues
-      const html2pdf = (await import('html2pdf.js')).default;
+      // Dynamically load html2pdf from CDN to completely bypass Next.js / Cloudflare esbuild
+      // which trips over its minified syntax when compiling for the Edge runtime.
+      const loadHtml2Pdf = async (): Promise<any> => {
+        if ((window as any).html2pdf) return (window as any).html2pdf;
+        return new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+          script.onload = () => resolve((window as any).html2pdf);
+          script.onerror = reject;
+          document.head.appendChild(script);
+        });
+      };
+
+      const html2pdf = await loadHtml2Pdf();
+      
       const opt: any = {
-        margin:       [0.5, 0.5] as [number, number],
+        margin:       [0.5, 0.5],
         filename:     `${jobId}-Report.pdf`,
         image:        { type: 'jpeg', quality: 0.98 },
         html2canvas:  { scale: 2, useCORS: true, letterRendering: true },
