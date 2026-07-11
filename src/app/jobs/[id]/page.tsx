@@ -1,4 +1,5 @@
 'use client';
+import { use } from 'react';
 import dynamic from 'next/dynamic';
 
 // Disable Server-Side Rendering (SSR) completely for this route.
@@ -16,6 +17,7 @@ const JobExecutionClient = dynamic(
   }
 );
 
-export default function JobExecutionPage({ params }: { params: { id: string } }) {
-  return <JobExecutionClient jobId={params.id} />;
+export default function JobExecutionPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
+  return <JobExecutionClient jobId={id} />;
 }
