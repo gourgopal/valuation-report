@@ -50,7 +50,7 @@ ALTER TABLE public.templates ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.jobs ENABLE ROW LEVEL SECURITY;
 
 -- Helper function to get current user's org_id
-CREATE OR REPLACE FUNCTION auth.user_org_id() 
+CREATE OR REPLACE FUNCTION public.user_org_id() 
 RETURNS UUID AS $$
   SELECT org_id FROM public.profiles WHERE id = auth.uid() LIMIT 1;
 $$ LANGUAGE sql SECURITY DEFINER;
@@ -59,25 +59,25 @@ $$ LANGUAGE sql SECURITY DEFINER;
 
 -- Profiles: Users can see profiles in their own org
 CREATE POLICY "Users can view profiles in their org" ON public.profiles
-    FOR SELECT USING (org_id = auth.user_org_id());
+    FOR SELECT USING (org_id = public.user_org_id());
 
 CREATE POLICY "Users can update their own profile" ON public.profiles
     FOR UPDATE USING (id = auth.uid());
 
 -- Organizations: Users can view their own org
 CREATE POLICY "Users can view their own organization" ON public.organizations
-    FOR SELECT USING (id = auth.user_org_id());
+    FOR SELECT USING (id = public.user_org_id());
 
 -- Templates: Users can view templates in their own org
 CREATE POLICY "Users can view templates in their org" ON public.templates
-    FOR SELECT USING (org_id = auth.user_org_id());
+    FOR SELECT USING (org_id = public.user_org_id());
 
 -- Jobs: Users can view all jobs in their org (or restrict to own jobs based on preference, here we allow org-wide viewing)
 CREATE POLICY "Users can view jobs in their org" ON public.jobs
-    FOR SELECT USING (org_id = auth.user_org_id());
+    FOR SELECT USING (org_id = public.user_org_id());
 
 CREATE POLICY "Users can insert jobs in their org" ON public.jobs
-    FOR INSERT WITH CHECK (org_id = auth.user_org_id() AND user_id = auth.uid());
+    FOR INSERT WITH CHECK (org_id = public.user_org_id() AND user_id = auth.uid());
 
 CREATE POLICY "Users can update jobs in their org" ON public.jobs
-    FOR UPDATE USING (org_id = auth.user_org_id());
+    FOR UPDATE USING (org_id = public.user_org_id());
