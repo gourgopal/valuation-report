@@ -3,7 +3,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- 1. Organizations Table
 CREATE TABLE public.organizations (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name TEXT NOT NULL,
     tier TEXT NOT NULL DEFAULT 'free' CHECK (tier IN ('free', 'pro')),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
@@ -21,7 +21,7 @@ CREATE TABLE public.profiles (
 
 -- 3. Templates Table
 CREATE TABLE public.templates (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     org_id UUID REFERENCES public.organizations(id) ON DELETE CASCADE,
     name TEXT NOT NULL,
     domain TEXT NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE public.templates (
 
 -- 4. Jobs Table
 CREATE TABLE public.jobs (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     org_id UUID REFERENCES public.organizations(id) ON DELETE CASCADE,
     user_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE,
     template_id UUID REFERENCES public.templates(id) ON DELETE CASCADE,
