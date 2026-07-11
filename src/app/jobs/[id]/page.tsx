@@ -1,3 +1,4 @@
+'use client';
 import dynamic from 'next/dynamic';
 
 // Disable Server-Side Rendering (SSR) completely for this route.
